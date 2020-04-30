@@ -1,18 +1,33 @@
 package filosofosComensales;
-//import prodComMonitores.Util;
+import prodComMonitores.Util;
 
 class filosofo implements Runnable{
 	ComidaComensales b = null;
-	int ID = -1;
+	int ID;
 	public filosofo( ComidaComensales initb , int id) {
 		b = initb;
 		ID = id;
 	}
-	public void run() {
-		while( true ) {
-			System.out.println("filosofo " + ID + " pensando");
+	public void pensar()
+	{
+		System.out.println("Soy el filosofo " + ID + " pensando, sí que sí.");
+		Util.mySleep(200);
+	}
+	
+	public void comer()
+	{
+		System.out.println("Filosofo " + ID + " comiendo. Yummi :D");
+		Util.mySleep(200);
+	}
+	
+	@Override
+	public void run()
+	{
+		while (true)
+		{
+			pensar();
 			b.tomar_tenedores(ID);
-			System.out.println("filosofo " + ID + " comiendo con tenedor " + ID + " y tenedor " + ID+1%5);
+			comer();
 			b.soltar_tenedores(ID);
 		}
 	}

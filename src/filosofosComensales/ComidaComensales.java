@@ -1,22 +1,23 @@
 package filosofosComensales;
 
 public class ComidaComensales {
-	final int size = 5;
-	double buffer[] = new double[size];
 	SemaforoBinario mutex = new SemaforoBinario(true);
-	SemaforoContador sinc[] = new SemaforoContador[5];
-	String estadosf[] = new String[5];
+	SemaforoContador[] sinc = new SemaforoContador[5];
+	String[] estadosf = new String[5];
+	
 	public ComidaComensales(){
+		
 		for (int i=0; i < 5; i++) {
-			sinc[i] = new SemaforoContador(0);
 			estadosf[i] = "Pensar";
+			sinc[i] = new SemaforoContador(0);
 			}
 		}
 	
 	public void tomar_tenedores(int i) {
-		System.out.println("Entrando ID: " + i);
+		//System.out.println("Entrando ID: " + i);
 		mutex.P(); // asegura la exclusión mutua
 		estadosf[i] = "Hambre";
+		System.out.println("El filósofo " + i + " tiene hambre )=");
 		probar_bocado(i);
 		mutex.V();
 		sinc[i].P(); // notifica a algún consumidor en espera
@@ -53,7 +54,7 @@ public class ComidaComensales {
 		}
 		if(estadosf[i] == "Hambre" && estadosf[left] != "Comer" && estadosf[right]!="Comer") {
 			estadosf[i] = "Comer";
-			mutex.V();
+			sinc[i].V();
 		}
 	}
 
